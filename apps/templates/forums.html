@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block body %}
+    {{ pagination.info }}
+    {{ pagination.links }}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>类别</th>
+                <th>标题</th>
+                <th>图片</th>
+                <th>磁力链</th>
+                <th>发表时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set ns_forum = namespace(loop) %}
+            {% for row in forums %}
+                {% set ns_forum.loop = loop.index0 %}
+                <tr>
+                    <td>{{ row['tag'] }}</td>
+                    <td>
+                        <div class="forum-title"><a href="{{ row['url'] }}" target="_blank">{{ row['title'] }}</a></div>
+                    </td>
+                    <td>
+                        {% if row.get_pics() %}
+                            <button class="btn btn-primary btn-sm" id="view-{{ ns_forum.loop }}">查看图片</button>
+                            <script type=" text/javascript">
+                                $(document).ready(function () {
+                                    var obj = {"data": []};
+                                    {% for pic in row.get_pics() %}
+                                        obj['data'].push({'src': "{{ pic }}"});
+                                    {% endfor %}
+                                    $("#view-{{ ns_forum.loop }}").click(function () {
+                                        layer.photos({
+                                            photos: obj,
+                                            area: ['1024px', 'auto'],
+                                            closeBtn: 2,
+                                            anim: -1
+                                        });
+                                    });
+                                });
+                            </script>
+                        {% else %}
+                            <div>无图片</div>
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ row['magnet'] }}"> 磁力链接 </a></td>
+                    <td>{{ row['create_time'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {{ pagination.links }}
+{% endblock %}

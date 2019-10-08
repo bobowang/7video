@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>分类</th>
+                <th>今日帖子数</th>
+                <th>昨日帖子数</th>
+                <th>总帖子数</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in results %}
+                <tr>
+                    <td><a href="/forums/{{ row['cid'] }}/1">{{ row['title'] }}</a></td>
+                    <td>{{ row['today'] }}</td>
+                    <td>{{ row['yesterday'] }}</td>
+                    <td>{{ row['total'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
