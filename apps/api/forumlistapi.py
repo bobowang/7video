@@ -2,6 +2,7 @@
 
 from flask import request, current_app
 from flask_restful import Resource, reqparse
+from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import HTTPException
 
 from apps.common import *
@@ -24,9 +25,13 @@ class ForumListApi(Resource):
         super(ForumListApi, self).__init__()
 
     def get(self):
-        cid = request.args.get('cid', type=int)
         page = request.args.get('page', default=1, type=int)
+        cid = request.args.get('cid', type=int)
         filters = [(Forum.cid == cid)] if cid else []
+        url = request.args.get('url', type=str)
+        filters.append((Forum.url == url)) if url else None
+        sn = request.args.get('sn', type=str)
+        filters.append((Forum.sn == sn)) if sn else None
 
         forum_pagination = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).paginate(
             page=page, per_page=current_app.config['FORUMS_PER_PAGE'], error_out=False)
@@ -40,8 +45,8 @@ class ForumListApi(Resource):
             "total": forum_pagination.total,
         }
 
-        data = [forum.to_dict() for forum in forum_pagination.items]
-        return {'code': 200, 'message': 'success', 'pagination': pagination, 'data': data}
+        data = [forum.to_dict() for forum in forum_pagination.items] if forum_pagination.items else None
+        return {'code': 200, 'message': 'success', 'pagination': pagination, 'data': data}, 200
 
     def post(self):
         try:
@@ -50,5 +55,7 @@ class ForumListApi(Resource):
             db.session.add(forum)
             db.session.commit()
             return {'code': 201, 'message': 'success', 'data': forum.to_dict()}, 201
+        except IntegrityError:
+            return {'code': 409, 'message': 'url Conflict', 'data': None}, 409
         except HTTPException as e:
             return {'code': 400, 'message': e.data['message'], 'data': None}, 400
