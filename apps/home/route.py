@@ -26,7 +26,7 @@ def home_init():
 @home_bp.route('/')
 @home_bp.route('/statistic')
 def index():
-    flash(u'声明：本站为资讯类网站，我们不提供任何影视的上传、下载、存储、播放，版权归属原电影制作公司，其他问题请邮件bostinwangbo@gmail.com', category='warning')
+    flash(u'声明：本站为资讯类网站，我们不提供任何影视的上传、下载、存储、播放，版权归属原电影制作公司', category='warning')
 
     today = datetime.date.today()
     today_result = dict()
