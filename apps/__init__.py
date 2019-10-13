@@ -16,7 +16,6 @@ def create_app():
     flask_api = Api(flask_app)
 
     flask_app.register_blueprint(home_bp, url_prefix='/')
-    flask_app.register_blueprint(api_bp, url_prefix='/api')
     flask_api.add_resource(ForumListApi, '/api/v1/forums', endpoint='forums')
     flask_api.add_resource(ForumApi, '/api/v1/forums/<int:forum_id>', endpoint='forum')
 
