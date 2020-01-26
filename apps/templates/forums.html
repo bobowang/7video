@@ -2,6 +2,10 @@
 {% block body %}
     {{ pagination.info }}
     {{ pagination.links }}
+    <div>
+        <button id="btn_copy" class="btn btn-primary btn-sm" data-clipboard-text="baidu">批量复制链接</button>
+        <div id="show" style="display: none;">Copied</div>
+    </div>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -53,4 +57,20 @@
         </table>
     </div>
     {{ pagination.links }}
+
+    <script>
+        var cb = new ClipboardJS('#btn_copy', {
+            text: function (trigger) {
+                var result = "";
+                {% for row in forums %}
+                    result = result + "{{ row['magnet'] }}" + "\n";
+                {% endfor %}
+                return result;
+            }
+        });
+
+        cb.on('success', function (e) {
+            $('#show').slideDown().delay(1500).slideUp(300);
+        });
+    </script>
 {% endblock %}
