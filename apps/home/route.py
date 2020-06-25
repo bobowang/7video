@@ -22,6 +22,7 @@ def home_init():
     for row in Category.query:
         g.categories[row.cid] = row.title
     g.home_title = current_app.config['HOME_TITLE']
+    g.per_page = current_app.config['FORUMS_PER_PAGE']
 
 
 @home_bp.route('/')
@@ -65,39 +66,36 @@ def top():
         .filter(Forum.actor_pro != u'未知') \
         .group_by(Forum.actor_pro).order_by(desc('cnt')).count()
 
-    per_page = current_app.config['FORUMS_PER_PAGE']
-    start = (page - 1) * per_page
-    end = page * per_page
+    start = (page - 1) * g.per_page
+    end = page * g.per_page
 
     data = db.session.query(Forum.actor_pro, func.count('*').label('cnt')) \
-        .filter(Forum.actor_pro != u'未知').filter(Forum.actor_pro != u'素人') \
         .group_by(Forum.actor_pro).order_by(desc('cnt')).slice(start, end)
 
     pagination = Pagination(bs_version=4,
                             total=total,
                             page=page,
-                            per_page=per_page)
+                            per_page=g.per_page)
 
     return render_template('top.html', data=data,
                            pagination=pagination,
                            active_url="url-cid-top")
 
 
-@home_bp.route('/forums/<int:cid>/', defaults={'page': 1})
-@home_bp.route('/forums/<int:cid>/<int:page>')
-def forums(cid, page):
+@home_bp.route('/forums/<int:cid>/')
+def forums(cid):
     filters = [(Forum.cid == cid)] if cid else []
     total = Forum.query.filter(*filters).count()
 
-    per_page = current_app.config['FORUMS_PER_PAGE']
-    start = (page - 1) * per_page
-    end = page * per_page
+    page = request.args.get('page', default=1, type=int)
+    start = (page - 1) * g.per_page
+    end = page * g.per_page
     forums = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
 
     pagination = Pagination(bs_version=4,
                             total=total,
                             page=page,
-                            per_page=per_page)
+                            per_page=g.per_page)
 
     return render_template('forums.html', forums=forums,
                            pagination=pagination,
@@ -121,15 +119,14 @@ def search():
     filters.append((Forum.title.like('%' + keyword + '%'))) if keyword else None
     total = Forum.query.filter(*filters).count()
 
-    per_page = current_app.config['FORUMS_PER_PAGE']
-    start = (page - 1) * per_page
-    end = page * per_page
+    start = (page - 1) * g.per_page
+    end = page * g.per_page
     forums = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
 
     pagination = Pagination(bs_version=4,
                             total=total,
                             page=page,
-                            per_page=per_page)
+                            per_page=g.per_page)
 
     return render_template('forums.html', forums=forums,
                            pagination=pagination)

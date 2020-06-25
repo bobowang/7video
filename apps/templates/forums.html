@@ -10,6 +10,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>标题</th>
                 <th>图片</th>
                 <th>磁力链</th>
@@ -23,6 +24,7 @@
             {% for row in forums %}
                 {% set ns_forum.loop = loop.index0 %}
                 <tr>
+                    <td>{{ row['id'] }}</td>
                     <td>
                         <div class="forum-title"><a href="{{ row['url'] }}" target="_blank">{{ row['title'] }}</a></div>
                     </td>
