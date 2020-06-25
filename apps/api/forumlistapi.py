@@ -32,6 +32,8 @@ class ForumListApi(Resource):
         filters.append((Forum.url == url)) if url else None
         sn = request.args.get('sn', type=str)
         filters.append((Forum.sn == sn)) if sn else None
+        keyword = request.args.get('keyword')
+        filters.append((Forum.title.like('%' + keyword + '%'))) if keyword else None
 
         forum_pagination = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).paginate(
             page=page, per_page=current_app.config['FORUMS_PER_PAGE'], error_out=False)

@@ -4,6 +4,7 @@ import datetime
 import os
 
 from flask import g, Blueprint, current_app, render_template, flash
+from flask import request, redirect, url_for
 from flask_paginate import Pagination
 from sqlalchemy.sql import func
 
@@ -62,8 +63,8 @@ def index():
 def forums(cid, page):
     filters = [(Forum.cid == cid)] if cid else []
     total = Forum.query.filter(*filters).count()
-    per_page = current_app.config['FORUMS_PER_PAGE']
 
+    per_page = current_app.config['FORUMS_PER_PAGE']
     start = (page - 1) * per_page
     end = page * per_page
     forums = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
@@ -76,3 +77,30 @@ def forums(cid, page):
     return render_template('forums.html', forums=forums,
                            pagination=pagination,
                            active_url="url-cid-%d" % cid)
+
+
+@home_bp.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        keyword = request.form.get('keyword')
+        return redirect(url_for('home.search', keyword=keyword))
+
+    page = request.args.get('page', default=1, type=int)
+    keyword = request.args.get('keyword')
+
+    filters = []
+    filters.append((Forum.title.like('%' + keyword + '%'))) if keyword else None
+    total = Forum.query.filter(*filters).count()
+
+    per_page = current_app.config['FORUMS_PER_PAGE']
+    start = (page - 1) * per_page
+    end = page * per_page
+    forums = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
+
+    pagination = Pagination(bs_version=4,
+                            total=total,
+                            page=page,
+                            per_page=per_page)
+
+    return render_template('forums.html', forums=forums,
+                           pagination=pagination)
