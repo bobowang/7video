@@ -10,10 +10,10 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>类别</th>
                 <th>标题</th>
                 <th>图片</th>
                 <th>磁力链</th>
+                <th>演员</th>
                 <th>演员</th>
                 <th>发表时间</th>
             </tr>
@@ -23,7 +23,6 @@
             {% for row in forums %}
                 {% set ns_forum.loop = loop.index0 %}
                 <tr>
-                    <td>{{ row['tag'] }}</td>
                     <td>
                         <div class="forum-title"><a href="{{ row['url'] }}" target="_blank">{{ row['title'] }}</a></div>
                     </td>
@@ -39,7 +38,7 @@
                                     $("#view-{{ ns_forum.loop }}").click(function () {
                                         layer.photos({
                                             photos: obj,
-                                            area: ['1000px', 'auto'],
+                                            area: ['800px', 'auto'],
                                             closeBtn: 2,
                                             anim: -1
                                         });
@@ -51,7 +50,8 @@
                         {% endif %}
                     </td>
                     <td><a href="{{ row['magnet'] }}"> 磁力链 </a></td>
-                    <td>{{ row['actor'] }}</td>
+                    <td><a href="/search?actor={{ row['actor'] }}"> {{ row['actor'] }} </a></td>
+                    <td><a href="/search?actor_pro={{ row['actor_pro'] }}"> {{ row['actor_pro'] }} </a></td>
                     <td>{{ row['create_time'] }}</td>
                 </tr>
             {% endfor %}

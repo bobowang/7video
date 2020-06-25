@@ -17,6 +17,7 @@ class Forum(db.Model):
     sn = db.Column(db.String)
     title = db.Column(db.String)
     actor = db.Column(db.String)
+    actor_pro = db.Column(db.String)
     magnet = db.Column(db.String)
     pics = db.Column(db.String)
     create_date = db.Column(db.String)

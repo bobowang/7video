@@ -18,6 +18,7 @@ class ForumListApi(Resource):
         self._rp.add_argument('sn', type=unicode, required=True, location='json')
         self._rp.add_argument('title', type=unicode, required=True, location='json')
         self._rp.add_argument('actor', type=unicode, default=u"未知", location='json')
+        self._rp.add_argument('actor_pro', type=unicode, default=u"未知", location='json')
         self._rp.add_argument('magnet', type=unicode, required=True, location='json')
         self._rp.add_argument('pics', type=str, default="", location='json')
         self._rp.add_argument('create_date', type=str, required=True, location='json')

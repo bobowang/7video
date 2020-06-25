@@ -31,6 +31,9 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item" id="url-cid-top">
+                    <a class="nav-link" href="/top">热门</a>
+                </li>
                 {% for cid in g.categories %}
                     <li class="nav-item" id="url-cid-{{ cid }}">
                         <a class="nav-link" href="/forums/{{ cid }}/1">{{ g.categories[cid] }}</a>
@@ -42,6 +45,12 @@
                        name="keyword">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
             </form>
+            <div>
+                <a href="/tools">
+                    <button class="btn btn-outline-success">修改工具</button>
+                </a>
+            </div>
+
         </div>
     </nav>
 

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>演员</th>
+                <th>帖子数</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>
+                        <div class="forum-title">
+                            <a href="/search?actor_pro={{ row['actor_pro'] }}"
+                               target="_blank">{{ row['actor_pro'] }}</a>
+                        </div>
+                    </td>
+                    <td>{{ row['cnt'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
