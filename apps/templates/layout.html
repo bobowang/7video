@@ -36,7 +36,7 @@
                 </li>
                 {% for cid in g.categories %}
                     <li class="nav-item" id="url-cid-{{ cid }}">
-                        <a class="nav-link" href="/forums/{{ cid }}/1">{{ g.categories[cid] }}</a>
+                        <a class="nav-link" href="/forums/{{ cid }}/">{{ g.categories[cid] }}</a>
                     </li>
                 {% endfor %}
             </ul>

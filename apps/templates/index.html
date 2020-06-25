@@ -13,7 +13,7 @@
             <tbody>
             {% for row in results %}
                 <tr>
-                    <td><a href="/forums/{{ row['cid'] }}/1">{{ row['title'] }}</a></td>
+                    <td><a href="/forums/{{ row['cid'] }}/">{{ row['title'] }}</a></td>
                     <td>{{ row['today'] }}</td>
                     <td>{{ row['yesterday'] }}</td>
                     <td>{{ row['total'] }}</td>
