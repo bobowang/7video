@@ -1,9 +1,10 @@
 # coding=utf-8
 
+import os
+
 from flask import Flask
 from flask_restful import Api
 
-import config
 from apps.api import *
 from apps.common import *
 from apps.home import *
@@ -11,7 +12,12 @@ from apps.home import *
 
 def create_app():
     flask_app = Flask(__name__)
-    flask_app.config.from_object(config)
+
+    config_file = './config.py'
+    if os.getenv('FLASK_CONFIG_FILE'):
+        config_file = os.getenv('FLASK_CONFIG_FILE')
+
+    flask_app.config.from_pyfile(config_file)
     db.init_app(flask_app)
     flask_api = Api(flask_app)
 
