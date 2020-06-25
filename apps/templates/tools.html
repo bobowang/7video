@@ -1,26 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>演员</th>
-                <th>帖子数</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for row in data %}
-                <tr>
-                    <td>
-                        <div class="forum-title">
-                            <a href="/search?actor_pro={{ row['actor_pro'] }}"
-                               target="_blank">{{ row['actor_pro'] }}</a>
-                        </div>
-                    </td>
-                    <td>{{ row['cnt'] }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <form class="form-style" method="post" action="/replace_actor_pro">
+        <div class="label-text row-style"><b>演员替换修改</b><span>批量替换演员名字</span></div>
+        <div class="label-text row-style">
+            <span>原演员</span>
+            <input class="input-style" type="text" name="actor_pro_old">
+        </div>
+        <div class="label-text row-style">
+            <span>新演员</span>
+            <input class="input-style" type="text" name="actor_pro_new">
+        </div>
+        <button class="btn-row btn btn-outline-success" type="submit">修改演员</button>
+    </form>
+    <form class="form-style" method="post" action="/modify_actor_pro_keyword">
+        <div class="label-text row-style"><b>关键字搜索修改</b><span>搜索标题修改演员名字</span></div>
+        <div class="label-text row-style">
+            <span>关键字</span>
+            <input class="input-style" type="text" name="keyword">
+        </div>
+        <div class="label-text row-style">
+            <span>新演员</span>
+            <input class="input-style" type="text" name="actor_pro_new">
+        </div>
+        <button class="btn-row btn btn-outline-success" type="submit">修改演员</button>
+    </form>
 {% endblock %}
