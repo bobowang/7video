@@ -63,7 +63,6 @@ def top():
     page = request.args.get('page', default=1, type=int)
 
     total = db.session.query(Forum.actor_pro, func.count('*').label('cnt')) \
-        .filter(Forum.actor_pro != u'未知') \
         .group_by(Forum.actor_pro).order_by(desc('cnt')).count()
 
     start = (page - 1) * g.per_page
@@ -90,14 +89,14 @@ def forums(cid):
     page = request.args.get('page', default=1, type=int)
     start = (page - 1) * g.per_page
     end = page * g.per_page
-    forums = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
+    data = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
 
     pagination = Pagination(bs_version=4,
                             total=total,
                             page=page,
                             per_page=g.per_page)
 
-    return render_template('forums.html', forums=forums,
+    return render_template('forums.html', forums=data,
                            pagination=pagination,
                            active_url="url-cid-%d" % cid)
 
@@ -121,14 +120,14 @@ def search():
 
     start = (page - 1) * g.per_page
     end = page * g.per_page
-    forums = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
+    data = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).slice(start, end)
 
     pagination = Pagination(bs_version=4,
                             total=total,
                             page=page,
                             per_page=g.per_page)
 
-    return render_template('forums.html', forums=forums,
+    return render_template('forums.html', forums=data,
                            pagination=pagination)
 
 
@@ -143,6 +142,15 @@ def modify_actor():
     for actor in Actor.query.filter(Actor.need_modify == 1).all():
         actor_old = actor['actor'].strip()
         actor_new = actor['actor_pro'].strip()
+
+        ret = db.session.query(Forum) \
+            .filter(Forum.actor_pro in (u'未知', u'素人')) \
+            .filter(Forum.title.like('%' + actor_new + '%')) \
+            .update({'actor_pro': actor_new}, synchronize_session=False)
+        db.session.commit()
+        if ret > 0:
+            result.append("search %s, %d modified" % (actor_new, ret))
+
         if actor_old != actor_new:
             ret = db.session.query(Forum) \
                 .filter(Forum.actor_pro == actor_old) \
@@ -150,18 +158,6 @@ def modify_actor():
             db.session.commit()
             if ret > 0:
                 result.append("%s => %s, %d modified" % (actor_old, actor_new, ret))
-
-        ret_keyword = db.session.query(Forum) \
-            .filter(Forum.actor_pro != actor_new) \
-            .filter(Forum.title.like('%' + actor_new + '%')) \
-            .update({'actor_pro': actor_new}, synchronize_session=False)
-        db.session.commit()
-        if ret_keyword > 0:
-            result.append("search %s, %d modified" % (actor_new, ret_keyword))
-            item = db.session.query(Forum) \
-                .filter(Forum.actor_pro != actor_new) \
-                .filter(Forum.title.like('%' + actor_new + '%')).count()
-            print(ret_keyword, item)
 
     return jsonify(result)
 
