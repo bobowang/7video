@@ -2,5 +2,6 @@
 
 from forum import Forum
 from category import Category
+from actor import Actor
 
-__all__ = ["Forum", "Category"]
+__all__ = ["Forum", "Category", "Actor"]

@@ -4,7 +4,7 @@ import datetime
 import os
 
 from flask import g, Blueprint, current_app, render_template, flash
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, jsonify
 from flask_paginate import Pagination
 from sqlalchemy.sql import func, desc
 
@@ -135,6 +135,35 @@ def search():
 @home_bp.route('/tools')
 def tools():
     return render_template('tools.html')
+
+
+@home_bp.route('/modify_actor')
+def modify_actor():
+    result = []
+    for actor in Actor.query.filter(Actor.need_modify == 1).all():
+        actor_old = actor['actor'].strip()
+        actor_new = actor['actor_pro'].strip()
+        if actor_old != actor_new:
+            ret = db.session.query(Forum) \
+                .filter(Forum.actor_pro == actor_old) \
+                .update({'actor_pro': actor_new}, synchronize_session=False)
+            db.session.commit()
+            if ret > 0:
+                result.append("%s => %s, %d modified" % (actor_old, actor_new, ret))
+
+        ret_keyword = db.session.query(Forum) \
+            .filter(Forum.actor_pro != actor_new) \
+            .filter(Forum.title.like('%' + actor_new + '%')) \
+            .update({'actor_pro': actor_new}, synchronize_session=False)
+        db.session.commit()
+        if ret_keyword > 0:
+            result.append("search %s, %d modified" % (actor_new, ret_keyword))
+            item = db.session.query(Forum) \
+                .filter(Forum.actor_pro != actor_new) \
+                .filter(Forum.title.like('%' + actor_new + '%')).count()
+            print(ret_keyword, item)
+
+    return jsonify(result)
 
 
 @home_bp.route('/replace_actor_pro', methods=['POST'])
