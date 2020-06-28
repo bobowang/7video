@@ -30,6 +30,8 @@ def create_app():
 
     admin = Admin(flask_app, name=flask_app.config['ADMIN_NAME'], template_mode='bootstrap3')
     admin.add_view(ModelView(Actor, db.session))
+    admin.add_view(ModelView(Category, db.session))
+    admin.add_view(ModelView(Forum, db.session))
 
     return flask_app
 
