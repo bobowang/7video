@@ -131,11 +131,6 @@ def search():
                            pagination=pagination)
 
 
-@home_bp.route('/tools')
-def tools():
-    return render_template('tools.html')
-
-
 @home_bp.route('/modify_actor')
 def modify_actor():
     result = []
@@ -160,49 +155,3 @@ def modify_actor():
                 result.append("%s => %s, %d modified" % (actor_old, actor_new, ret))
 
     return jsonify(result)
-
-
-@home_bp.route('/replace_actor_pro', methods=['POST'])
-def replace_actor_pro():
-    actor_pro_old = request.form.get('actor_pro_old').strip()
-    actor_pro_new = request.form.get('actor_pro_new').strip()
-
-    if not actor_pro_old:
-        flash(u'原演员不能为空', category='warning')
-        return render_template('tools.html')
-    if not actor_pro_new:
-        flash(u'新演员不能为空', category='warning')
-        return render_template('tools.html')
-    if actor_pro_old == actor_pro_new:
-        flash(u'演员修改前后不能相同', category='warning')
-        return render_template('tools.html')
-
-    ret = db.session.query(Forum) \
-        .filter(Forum.actor_pro == actor_pro_old) \
-        .update({'actor_pro': actor_pro_new}, synchronize_session=False)
-    db.session.commit()
-
-    flash(u'修改成功:%d条，%s=>%s' % (ret, actor_pro_old, actor_pro_new), category='info')
-    return render_template('tools.html')
-
-
-@home_bp.route('/modify_actor_pro_keyword', methods=['POST'])
-def modify_actor_pro_keyword():
-    keyword = request.form.get('keyword').strip()
-    actor_pro_new = request.form.get('actor_pro_new').strip()
-
-    if not keyword:
-        flash(u'关键字不能为空', category='warning')
-        return render_template('tools.html')
-    if not actor_pro_new:
-        flash(u'新演员不能为空', category='warning')
-        return render_template('tools.html')
-
-    ret = db.session.query(Forum) \
-        .filter(Forum.actor_pro != actor_pro_new) \
-        .filter(Forum.title.like('%' + keyword + '%')) \
-        .update({'actor_pro': actor_pro_new}, synchronize_session=False)
-    db.session.commit()
-
-    flash(u'修改成功:%d条，%s ~ %s' % (ret, keyword, actor_pro_new), category='info')
-    return render_template('tools.html')
