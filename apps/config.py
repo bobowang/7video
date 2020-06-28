@@ -1,6 +1,6 @@
 # coding=utf-8
 
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'Gzk3NzY4NTYrOTgyMjg0MmUwMDUyY2Nc'
 
 HOME_TITLE = "7video"
