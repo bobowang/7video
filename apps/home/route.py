@@ -144,7 +144,7 @@ def modify_actor():
         actor_new = actor['actor_pro'].strip()
 
         ret = db.session.query(Forum) \
-            .filter(Forum.actor_pro in (u'未知', u'素人')) \
+            .filter(Forum.actor_pro in ('未知', '素人')) \
             .filter(Forum.title.like('%' + actor_new + '%')) \
             .update({'actor_pro': actor_new}, synchronize_session=False)
         db.session.commit()
