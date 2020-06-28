@@ -1,7 +1,7 @@
 # coding=utf-8
 
-from forum import Forum
-from category import Category
-from actor import Actor
+from .actor import Actor
+from .category import Category
+from .forum import Forum
 
 __all__ = ["Forum", "Category", "Actor"]
