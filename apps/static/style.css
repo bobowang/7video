@@ -1,3 +1,7 @@
+.container {
+    max-width: 2400px;
+}
+
 body {
     padding-top: 50px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -63,8 +67,8 @@ body {
     height: auto;
 }
 
-.forum-title {
-    width: 420px;
+.forum-fixed {
+    width: 120px;
 }
 
 .table tbody tr td {

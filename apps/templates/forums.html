@@ -52,8 +52,8 @@
                         {% endif %}
                     </td>
                     <td><a href="{{ row['magnet'] }}"> 磁力链 </a></td>
-                    <td><a href="/search?actor={{ row['actor'] }}"> {{ row['actor'] }} </a></td>
-                    <td><a href="/search?actor_pro={{ row['actor_pro'] }}"> {{ row['actor_pro'] }} </a></td>
+                    <td><div class="forum-fixed"><a href="/search?actor={{ row['actor'] }}"> {{ row['actor'] }} </a></div></td>
+                    <td><div class="forum-fixed"><a href="/search?actor_pro={{ row['actor_pro'] }}"> {{ row['actor_pro'] }} </a></div></td>
                     <td>{{ row['create_time'] }}</td>
                 </tr>
             {% endfor %}
