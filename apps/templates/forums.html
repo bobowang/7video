@@ -30,30 +30,24 @@
                     </td>
                     <td>
                         {% if row.get_pics() %}
-                            <button class="btn btn-primary btn-sm" id="view-{{ ns_forum.loop }}">查看</button>
-                            <script type=" text/javascript">
-                                $(document).ready(function () {
-                                    var obj = {"data": []};
-                                    {% for pic in row.get_pics() %}
-                                        obj['data'].push({'src': "{{ pic }}"});
-                                    {% endfor %}
-                                    $("#view-{{ ns_forum.loop }}").click(function () {
-                                        layer.photos({
-                                            photos: obj,
-                                            area: ['800px', 'auto'],
-                                            closeBtn: 2,
-                                            anim: -1
-                                        });
-                                    });
-                                });
-                            </script>
+                            {% for pic in row.get_pics() %}
+                                <a href="{{ pic }}" target="_blank">
+                                    <button class="btn btn-primary btn-sm">图片{{ loop.index }}</button>
+                                </a>
+                            {% endfor %}
                         {% else %}
                             <div>无图片</div>
                         {% endif %}
                     </td>
                     <td><a href="{{ row['magnet'] }}"> 磁力链 </a></td>
-                    <td><div class="forum-fixed"><a href="/search?actor={{ row['actor'] }}"> {{ row['actor'] }} </a></div></td>
-                    <td><div class="forum-fixed"><a href="/search?actor_pro={{ row['actor_pro'] }}"> {{ row['actor_pro'] }} </a></div></td>
+                    <td>
+                        <div class="forum-fixed"><a href="/search?actor={{ row['actor'] }}"> {{ row['actor'] }} </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="forum-fixed"><a
+                                href="/search?actor_pro={{ row['actor_pro'] }}"> {{ row['actor_pro'] }} </a></div>
+                    </td>
                     <td>{{ row['create_time'] }}</td>
                 </tr>
             {% endfor %}
