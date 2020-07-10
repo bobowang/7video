@@ -19,7 +19,7 @@ home_bp = Blueprint('home', __name__,
 @home_bp.before_request
 def home_init():
     g.categories = {}
-    for row in Category.query:
+    for row in Category.query.order_by(Category.cid):
         g.categories[row.cid] = row.title
     g.home_title = current_app.config['HOME_TITLE']
     g.per_page = current_app.config['FORUMS_PER_PAGE']
@@ -33,19 +33,19 @@ def index():
     today_result = dict()
     for item in db.session.query(Forum.cid, func.count('*')) \
             .filter(Forum.create_date == today) \
-            .group_by(Forum.cid).order_by(Forum.cid).all():
+            .group_by(Forum.cid).all():
         today_result[item[0]] = item[1]
 
     yesterday = (datetime.date.today() + datetime.timedelta(days=-1))
     yesterday_result = dict()
     for item in db.session.query(Forum.cid, func.count('*')) \
             .filter(Forum.create_date == yesterday) \
-            .group_by(Forum.cid).order_by(Forum.cid).all():
+            .group_by(Forum.cid).all():
         yesterday_result[item[0]] = item[1]
 
     results = []
     for row in db.session.query(Forum.cid, func.count('*')) \
-            .group_by(Forum.cid).order_by(Forum.cid).all():
+            .group_by(Forum.cid).all():
         cid = row[0]
         record = {'cid': cid,
                   'title': g.categories[cid],
