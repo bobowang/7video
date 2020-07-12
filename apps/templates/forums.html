@@ -37,7 +37,13 @@
                             <div>无图片</div>
                         {% endfor %}
                     </td>
-                    <td><a href="{{ row['magnet'] }}"> 磁力链 </a></td>
+                    <td>
+                        {% if row['magnet'] %}
+                            <a href="{{ row['magnet'] }}"> 磁力链 </a>
+                        {% else %}
+                            <div>未知</div>
+                        {% endif %}
+                    </td>
                     <td>
                         <div class="forum-fixed"><a href="/search?actor={{ row['actor'] }}"> {{ row['actor'] }} </a>
                         </div>
