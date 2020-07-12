@@ -22,6 +22,7 @@ class Forum(db.Model):
     pics = db.Column(db.String)
     create_date = db.Column(db.String)
     create_time = db.Column(db.String)
+    fid = db.Column(db.Integer)
 
     def __init__(self, entries):
         self.__dict__.update(entries)

@@ -23,12 +23,15 @@ class ForumListApi(Resource):
         self._rp.add_argument('pics', type=str, default="", location='json')
         self._rp.add_argument('create_date', type=str, required=True, location='json')
         self._rp.add_argument('create_time', type=str, required=True, location='json')
+        self._rp.add_argument('fid', type=int, required=True, location='json')
         super(ForumListApi, self).__init__()
 
     def get(self):
         page = request.args.get('page', default=1, type=int)
         cid = request.args.get('cid', type=int)
         filters = [(Forum.cid == cid)] if cid else []
+        fid = request.args.get('fid', type=int)
+        filters.append((Forum.fid == fid)) if fid else None
         url = request.args.get('url', type=str)
         filters.append((Forum.url == url)) if url else None
         sn = request.args.get('sn', type=str)
@@ -36,7 +39,7 @@ class ForumListApi(Resource):
         keyword = request.args.get('keyword')
         filters.append((Forum.title.like('%' + keyword + '%'))) if keyword else None
 
-        forum_pagination = Forum.query.filter(*filters).order_by(Forum.create_time.desc()).paginate(
+        forum_pagination = Forum.query.filter(*filters).order_by(Forum.fid.desc()).paginate(
             page=page, per_page=current_app.config['FORUMS_PER_PAGE'], error_out=False)
 
         pagination = {
