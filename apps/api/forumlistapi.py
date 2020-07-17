@@ -5,8 +5,8 @@ from flask_restful import Resource, reqparse
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import HTTPException
 
-from apps.common import *
 from apps.models import *
+from apps.utils import db
 
 
 class ForumListApi(Resource):

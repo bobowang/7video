@@ -4,7 +4,7 @@ import json
 
 from sqlalchemy.inspection import inspect
 
-from apps.common import *
+from apps.utils import db
 
 
 # 构建Forum模型类

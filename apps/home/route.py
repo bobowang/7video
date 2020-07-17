@@ -8,8 +8,8 @@ from flask import request, redirect, url_for, jsonify
 from flask_paginate import Pagination
 from sqlalchemy.sql import func, desc
 
-from apps.common import *
 from apps.models import *
+from apps.utils import db
 
 home_bp = Blueprint('home', __name__,
                     static_folder=os.path.join(os.path.dirname(__file__), '../static'),
