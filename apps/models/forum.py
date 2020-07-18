@@ -12,6 +12,7 @@ class Forum(db.Model):
     __table__name = 'forum'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cid = db.Column(db.Integer)
+    fid = db.Column(db.Integer)
     tag = db.Column(db.String)
     url = db.Column(db.String, unique=True)
     sn = db.Column(db.String)
@@ -22,7 +23,6 @@ class Forum(db.Model):
     pics = db.Column(db.String)
     create_date = db.Column(db.String)
     create_time = db.Column(db.String)
-    fid = db.Column(db.Integer)
 
     def __init__(self, entries):
         self.__dict__.update(entries)

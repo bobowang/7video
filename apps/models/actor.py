@@ -12,7 +12,7 @@ class Actor(db.Model):
     actor = db.Column(db.String)
     actor_pro = db.Column(db.String)
     pic = db.Column(db.String)
-    need_modify = db.Column(db.Boolean())
+    need_modify = db.Column(db.Boolean(), default=True)
 
     def keys(self):
         return inspect(self).attrs.keys()
