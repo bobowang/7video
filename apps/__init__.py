@@ -3,10 +3,10 @@
 import os
 
 from flask import Flask
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
+from flask_admin import Admin, AdminIndexView
 from flask_restful import Api
 
+from apps.admin import *
 from apps.api import *
 from apps.home import *
 from apps.models import *
@@ -28,10 +28,15 @@ def create_app():
     flask_api.add_resource(ForumListApi, '/api/v1/forums', endpoint='forums')
     flask_api.add_resource(ForumApi, '/api/v1/forums/<int:forum_id>', endpoint='forum')
 
-    admin = Admin(flask_app, name=flask_app.config['ADMIN_NAME'], template_mode='bootstrap3')
-    admin.add_view(ModelView(Actor, db.session))
-    admin.add_view(ModelView(Category, db.session))
-    admin.add_view(ModelView(Forum, db.session))
+    admin = Admin(flask_app, name=flask_app.config['ADMIN_NAME'],
+                  template_mode='bootstrap3',
+                  index_view=AdminIndexView(name='首页', menu_icon_type='glyph', menu_icon_value='glyphicon-home'))
+    admin.add_view(ActorView(Actor, db.session, name='主演',
+                             menu_icon_type='glyph', menu_icon_value='glyphicon-user'))
+    admin.add_view(CategoryView(Category, db.session, name='分类',
+                                menu_icon_type='glyph', menu_icon_value='glyphicon-tags'))
+    admin.add_view(ForumView(Forum, db.session, name='帖子',
+                             menu_icon_type='glyph', menu_icon_value='glyphicon-film'))
 
     return flask_app
 
