@@ -30,7 +30,7 @@ def create_app():
 
     admin = Admin(flask_app, name=flask_app.config['ADMIN_NAME'],
                   template_mode='bootstrap3',
-                  index_view=AdminIndexView(name='首页', menu_icon_type='glyph', menu_icon_value='glyphicon-home'))
+                  index_view=AdminIndexView(name='后台首页', menu_icon_type='glyph', menu_icon_value='glyphicon-home'))
     admin.add_view(ActorView(Actor, db.session, name='主演',
                              menu_icon_type='glyph', menu_icon_value='glyphicon-user'))
     admin.add_view(CategoryView(Category, db.session, name='分类',
