@@ -1,5 +1,5 @@
-FROM python:3.6
-WORKDIR /7video
+FROM python:3.6-slim-buster
+WORKDIR /opt/7video
 RUN mkdir -p /data/7video
 ADD . .
 

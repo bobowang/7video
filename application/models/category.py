@@ -2,17 +2,15 @@
 
 from sqlalchemy.inspection import inspect
 
-from apps.utils import db
+from application.utils import db
 
 
-# 构建Actor模型类
-class Actor(db.Model):
-    __table__name = 'actor'
+# 构建Category模型类
+class Category(db.Model):
+    __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    actor = db.Column(db.String)
-    actor_pro = db.Column(db.String)
-    pic = db.Column(db.String)
-    need_modify = db.Column(db.Boolean(), default=True)
+    cid = db.Column(db.Integer)
+    title = db.Column(db.String())
 
     def keys(self):
         return inspect(self).attrs.keys()

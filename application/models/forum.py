@@ -4,12 +4,12 @@ import json
 
 from sqlalchemy.inspection import inspect
 
-from apps.utils import db
+from application.utils import db
 
 
 # 构建Forum模型类
 class Forum(db.Model):
-    __table__name = 'forum'
+    __tablename__ = 'forum'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cid = db.Column(db.Integer)
     fid = db.Column(db.Integer)

@@ -1,0 +1,28 @@
+# coding=utf-8
+
+DEBUG = False
+SECRET_KEY = '7video-Gzk3NzY4'
+HOME_TITLE = "7video"
+FORUMS_PER_PAGE = 10
+
+# database config
+DATABASE = "/data/7video/7video.db"
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + DATABASE
+SQLALCHEMY_ECHO = False
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# Flask-admin config
+ADMIN_NAME = "管理后台"
+FLASK_ADMIN_SWATCH = "spacelab"
+
+# Flask-Security config
+SECURITY_PASSWORD_HASH = "pbkdf2_sha512"
+SECURITY_PASSWORD_SALT = "7video-OTMzNjFl"
+SECURITY_URL_PREFIX = "/admin"
+SECURITY_LOGIN_URL = "/login/"
+SECURITY_LOGOUT_URL = "/logout/"
+SECURITY_POST_LOGIN_VIEW = "/admin/"
+SECURITY_POST_LOGOUT_VIEW = "/admin/"
+SECURITY_FLASH_MESSAGES = False
+SECURITY_REGISTERABLE = False
+SECURITY_SEND_REGISTER_EMAIL = False

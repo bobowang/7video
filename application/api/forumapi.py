@@ -2,8 +2,8 @@
 
 from flask_restful import Resource
 
-from apps.models import *
-from apps.utils import db
+from application.models import *
+from application.utils import db
 
 
 class ForumApi(Resource):

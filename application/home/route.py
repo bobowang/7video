@@ -8,8 +8,8 @@ from flask import request, redirect, url_for, jsonify
 from flask_paginate import Pagination
 from sqlalchemy.sql import func, desc
 
-from apps.models import *
-from apps.utils import db
+from application.models import *
+from application.utils import db
 
 home_bp = Blueprint('home', __name__,
                     static_folder=os.path.join(os.path.dirname(__file__), '../static'),
@@ -55,7 +55,7 @@ def index():
                   }
         results.append(record)
 
-    return render_template('index.html', results=results)
+    return render_template('home/index.html', results=results)
 
 
 @home_bp.route('/top')
@@ -76,7 +76,7 @@ def top():
                             page=page,
                             per_page=g.per_page)
 
-    return render_template('top.html', data=data,
+    return render_template('home/top.html', data=data,
                            pagination=pagination,
                            active_url="url-cid-top")
 
@@ -96,7 +96,7 @@ def forums(cid):
                             page=page,
                             per_page=g.per_page)
 
-    return render_template('forums.html', forums=data,
+    return render_template('home/forums.html', forums=data,
                            pagination=pagination,
                            active_url="url-cid-%d" % cid)
 
@@ -127,7 +127,7 @@ def search():
                             page=page,
                             per_page=g.per_page)
 
-    return render_template('forums.html', forums=data,
+    return render_template('home/forums.html', forums=data,
                            pagination=pagination)
 
 

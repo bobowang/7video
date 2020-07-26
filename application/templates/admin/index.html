@@ -4,13 +4,20 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
-                <p class="lead">常用工具箱</p>
-                <p>
+                <h1>常用工具箱</h1>
+                <p class="lead">
                     <a class="btn btn-primary" href="/modify_actor" target="_blank">
                         <i class="glyphicon glyphicon-new-window"></i> 主演优化</a>
                     <a class="btn btn-primary" href="/">
                         <i class="glyphicon glyphicon-chevron-left"></i> 返回网站首页</a>
                 </p>
+
+                {% if not current_user.is_authenticated %}
+                    <p>
+                        <br/><br/>
+                        <a class="btn btn-primary" href="{{ url_for('security.login') }}">login</a>
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>
