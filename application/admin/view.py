@@ -67,7 +67,7 @@ class ForumView(AuthModelView):
     def __init__(self, model, session, name='帖子', category=None, endpoint=None, url=None,
                  static_folder=None, menu_class_name=None, menu_icon_type='glyph', menu_icon_value='glyphicon-film'):
         self.column_list = ['id', 'cid', 'fid', 'url', 'title', 'actor', 'actor_pro', 'create_date', 'create_time']
-        self.column_editable_list = ['actor', 'actor_pro', 'create_date', 'create_time']
+        self.column_editable_list = ['title', 'actor', 'actor_pro', 'create_date', 'create_time']
         self.column_searchable_list = ['title', 'actor', 'actor_pro']
         self.column_filters = ['cid']
         self.column_default_sort = ('id', True)
