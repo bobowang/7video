@@ -89,7 +89,7 @@ def forums(cid):
     page = request.args.get('page', default=1, type=int)
     start = (page - 1) * g.per_page
     end = page * g.per_page
-    data = Forum.query.filter(*filters).order_by(Forum.fid.desc()).slice(start, end)
+    data = Forum.query.filter(*filters).order_by(Forum.fid.desc(), Forum.id.desc()).slice(start, end)
 
     pagination = Pagination(bs_version=4,
                             total=total,
