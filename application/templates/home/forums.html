@@ -29,13 +29,15 @@
                         <div class="forum-title"><a href="{{ row['url'] }}" target="_blank">{{ row['title'] }}</a></div>
                     </td>
                     <td>
-                        {% for pic in row.get_pics()[:3] %}
-                            <a href="{{ pic }}" target="_blank">
-                                <button class="btn btn-primary btn-sm">图{{ loop.index }}</button>
-                            </a>
+                        {% if row.get_pics() %}
+                            {% for pic in row.get_pics()[:3] %}
+                                <a href="{{ pic|pic_url_for }}" target="_blank">
+                                    <button class="btn btn-primary btn-sm">{{ loop.index }}</button>
+                                </a>
+                            {% endfor %}
                         {% else %}
                             <div>无图片</div>
-                        {% endfor %}
+                        {% endif %}
                     </td>
                     <td>
                         {% if row['magnet'] %}

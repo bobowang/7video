@@ -155,3 +155,9 @@ def modify_actor():
                 result.append("%s => %s, %d modified" % (actor_old, actor_new, ret))
 
     return jsonify(result)
+
+
+def pic_url_for(url):
+    if url.startswith("http"):
+        return url
+    return "https://www.sehuatang.org/" + url
