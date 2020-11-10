@@ -138,7 +138,7 @@ def modify_actor():
         actor_old = actor['actor'].strip()
         actor_new = actor['actor_pro'].strip()
 
-        ret = db.session.query(Forum) \
+        ret = db.session.query(Forum).filter(Forum.cid in (103, 36, 37)) \
             .filter(Forum.actor_pro in ('未知', '素人')) \
             .filter(Forum.title.like('%' + actor_new + '%')) \
             .update({'actor_pro': actor_new}, synchronize_session=False)
@@ -147,7 +147,7 @@ def modify_actor():
             result.append("search %s, %d modified" % (actor_new, ret))
 
         if actor_old != actor_new:
-            ret = db.session.query(Forum) \
+            ret = db.session.query(Forum).filter(Forum.cid in (103, 36, 37)) \
                 .filter(Forum.actor_pro == actor_old) \
                 .update({'actor_pro': actor_new}, synchronize_session=False)
             db.session.commit()
