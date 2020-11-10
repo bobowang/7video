@@ -104,7 +104,7 @@ def forums(cid):
 @home_bp.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-        keyword = request.form.get('keyword')
+        keyword = request.form.get('keyword').strip()
         return redirect(url_for('home.search', keyword=keyword))
 
     page = request.args.get('page', default=1, type=int)
@@ -134,7 +134,7 @@ def search():
 @home_bp.route('/modify_actor')
 def modify_actor():
     result = []
-    for actor in Actor.query.filter(Actor.need_modify == 1).all():
+    for actor in Actor.query.filter(Actor.need_modify == 1).order_by(Actor.id.desc()).all():
         actor_old = actor['actor'].strip()
         actor_new = actor['actor_pro'].strip()
 
