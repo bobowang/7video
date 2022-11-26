@@ -156,7 +156,6 @@ def modify_actor():
 
     return jsonify(result)
 
-
 def pic_url_for(url):
     if url.startswith("http"):
         return url
